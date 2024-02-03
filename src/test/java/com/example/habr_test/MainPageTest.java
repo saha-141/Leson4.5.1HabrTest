@@ -19,14 +19,11 @@ public class MainPageTest {
     @BeforeEach
     public void setUp() {
         ChromeOptions options = new ChromeOptions();
-        // Fix the issue https://github.com/SeleniumHQ/selenium/issues/11750
         options.addArguments("--remote-allow-origins=*");
         driver = new ChromeDriver(options);
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://www.habr.com/");
-
-
     }
 
     @AfterEach
@@ -35,15 +32,14 @@ public class MainPageTest {
     }
 
     @Test
-    public void HabrTest() {
-
+    public void habrTest() {
         WebElement allFlow = driver.findElement(By.xpath("//*[contains(text(), 'Все потоки')]"));
         allFlow.click();
 
-        WebElement Post = driver.findElement(By.xpath("//*[contains(text(), 'Посты')]"));
-        Post.click();
+        WebElement post = driver.findElement(By.xpath("//a[contains(text(), 'Посты')]"));
+        post.click();
 
-        assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Компании')]")).isDisplayed(), "Компании не найдены");
+        assertTrue(driver.findElement(By.xpath("//*[contains(text(), 'Компании')and contains(@class, 'tm-tabs__tab-link')] ")).isDisplayed(), "Компании не найдены");
     }
 }
 
